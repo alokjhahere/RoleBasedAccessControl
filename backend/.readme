@@ -1,0 +1,43 @@
+# Backend — RBAC Project
+
+This repository contains the backend for the RBAC (Role-Based Access Control) project. Work completed so far provides a runnable Express server and a project scaffold for data access.
+
+Status
+
+- Basic Express server implemented and running (`server.js`).
+- Dependencies declared in `package.json` for runtime and helper tooling.
+
+Key files and folders
+
+- `server.js`: Express app with CORS and JSON parsing, listening on `process.env.PORT || 5000`.
+- `package.json`: project metadata and `start` script (`nodemon server.js`).
+- `data/db.js`: current database helper module used by the backend — prefer this for DB access in the current setup.
+- `config/prisma.js` and `prisma.config.ts`: present but not used by the running server in the current state.
+- `prisma/`: Prisma schema exists but is intentionally ignored for the present workflow.
+- `frontend/`: placeholder for the frontend application.
+
+How to run (local)
+
+1. Install dependencies:
+
+   npm install
+
+2. Create a `.env` file at the project root if needed (for example: `PORT`, database connection string used by `data/db.js`).
+
+3. Start the server:
+
+   npm start
+
+Notes
+
+- The project currently uses `data/db.js` as the DB helper. The Prisma files are included in the repo but are intentionally not used by the running server; you can ignore Prisma-related files for now.
+- If you decide to use Prisma later, run Prisma CLI commands (generate, migrate) against `prisma/schema.prisma` and update `data/db.js` or swap it out.
+
+Next steps
+
+- Implement API routes for authentication and RBAC models (roles, permissions, users).
+- Replace or integrate `data/db.js` with a persistent database adapter (or enable Prisma migrations and generator as needed).
+- Connect the frontend in `frontend/` and secure endpoints.
+
+Contact
+If you want me to implement the next steps (routes, migrations, seeds), tell me which area to prioritize.
