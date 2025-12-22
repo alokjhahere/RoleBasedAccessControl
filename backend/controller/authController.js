@@ -1,5 +1,57 @@
 const { users } = require("../data/db");
 
+exports.getMe = async (req, res) => {
+  try {
+    const user = req.user;
+
+    return res.status(200).json({
+      message: "User profile fetched successfully",
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        roleId: user.roleId,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Failed to fetch profile",
+    });
+  }
+};
+
+exports.updateMe = async (req, res) => {
+  try {
+    const user = req.user; // attached by authMiddleware
+    const { name, email } = req.body;
+
+    // Prevent empty update
+    if (!name && !email) {
+      return res.status(400).json({
+        message: "Nothing to update",
+      });
+    }
+
+    // Update allowed fields only
+    if (name) user.name = name;
+    if (email) user.email = email;
+
+    return res.status(200).json({
+      message: "Profile updated successfully",
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        roleId: user.roleId,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Failed to update profile",
+    });
+  }
+};
+
 exports.loginController = async (req, res) => {
   try {
     const { email } = req.body;
