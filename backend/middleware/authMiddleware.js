@@ -1,18 +1,21 @@
+const jwt = require("jsonwebtoken");
 const { users } = require("../data/db");
 
 exports.authMiddleware = async (req, res, next) => {
   try {
-    // Read email from headers (temporary auth strategy)
-    const email = req.headers["x-user-email"];
+    const authHeader = req.headers.authorization;
 
-    if (!email) {
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({
-        message: "Unauthorized: email not provided",
+        message: "Unauthorized: token missing",
       });
     }
 
-    // Find user in mock DB
-    const user = users.find((u) => u.email === email);
+    const token = authHeader.split(" ")[1];
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    const user = users.find((u) => u.id === decoded.userId);
 
     if (!user) {
       return res.status(401).json({
@@ -20,13 +23,11 @@ exports.authMiddleware = async (req, res, next) => {
       });
     }
 
-    // Attach user to request
-    req.user = user;
-
-    next(); // pass control to controller
+    req.user = user; // 🔥 RBAC depends on this
+    next();
   } catch (error) {
-    return res.status(500).json({
-      message: "Authentication failed",
+    return res.status(401).json({
+      message: "Unauthorized: invalid or expired token",
     });
   }
 };

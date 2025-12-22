@@ -48,13 +48,25 @@ const permissions = [
     action: "READ",
     description: "Can read permissions",
   },
+  {
+    id: 8,
+    resource: "roles",
+    action: "ASSIGN",
+    description: "Can assign roles to users",
+  },
+  {
+    id: 9,
+    resource: "permissions",
+    action: "ASSIGN",
+    description: "Can assign permissions to roles",
+  },
 ];
 
 const roles = [
   {
     id: 1,
     name: "admin",
-    permissions: [1, 2, 3, 4, 5, 6, 7], // full access
+    permissions: [1, 2, 3, 4, 5, 6, 7, 8, 9], // full access
   },
   {
     id: 2,
