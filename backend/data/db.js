@@ -35,13 +35,26 @@ const permissions = [
     action: "UPDATE",
     description: "Can update own profile",
   },
+
+  {
+    id: 6,
+    resource: "permissions",
+    action: "CREATE",
+    description: "Can create permissions",
+  },
+  {
+    id: 7,
+    resource: "permissions",
+    action: "READ",
+    description: "Can read permissions",
+  },
 ];
 
 const roles = [
   {
     id: 1,
     name: "admin",
-    permissions: [1, 2, 3, 4, 5], // full access
+    permissions: [1, 2, 3, 4, 5, 6, 7], // full access
   },
   {
     id: 2,

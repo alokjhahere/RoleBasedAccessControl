@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const authRoute = require("./routes/authRoutes");
 const roleRoutes = require("./routes/roleRoutes");
+const permissionRoutes = require("./routes/permissionRoutes");
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.get("/", (req, res) => {
 
 app.use("/auth", authRoute);
 app.use("/roles", roleRoutes);
+app.use("/permission", permissionRoutes);
 
 const PORT = process.env.PORT || 5000;
 
