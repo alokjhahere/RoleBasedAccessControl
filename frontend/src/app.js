@@ -3,6 +3,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home";
 import NavBar from "./components/NavBar";
 import AuthForm from "./pages/AuthForm";
+import { AuthProvider } from "./context/AuthContext";
 
 const AppLayout = () => {
   return (
@@ -35,4 +36,8 @@ const appRouter = createBrowserRouter([
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<RouterProvider router={appRouter} />);
+root.render(
+  <AuthProvider>
+    <RouterProvider router={appRouter} />
+  </AuthProvider>
+);
