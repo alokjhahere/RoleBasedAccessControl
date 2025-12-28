@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import NavBar from "./components/NavBar";
 import AuthForm from "./pages/AuthForm";
 import { AuthProvider } from "./context/AuthContext";
+import Profile from "./pages/Profile";
 
 const AppLayout = () => {
   return (
@@ -30,6 +31,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/register",
         element: <AuthForm mode="register" />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
       },
     ],
   },

@@ -1,20 +1,41 @@
 const jwt = require("jsonwebtoken");
-const { users } = require("../data/db");
 
-exports.getMe = async (req, res) => {
+const { users, roles, permissions } = require("../data/db");
+
+exports.getMe = (req, res) => {
   try {
+    // user is already attached by authMiddleware (JWT)
     const user = req.user;
 
+    // 1. Find user's role
+    const role = roles.find((r) => r.id === user.roleId);
+
+    if (!role) {
+      return res.status(404).json({
+        message: "Role not found for user",
+      });
+    }
+
+    // 2. Resolve permissions for that role
+    const resolvedPermissions = role.permissions
+      .map((permId) => permissions.find((p) => p.id === permId))
+      .filter(Boolean); // safety
+
+    // 3. Send clean RBAC-ready response
     return res.status(200).json({
-      message: "User profile fetched successfully",
       user: {
         id: user.id,
         name: user.name,
         email: user.email,
-        roleId: user.roleId,
+        role: {
+          id: role.id,
+          name: role.name,
+          permissions: resolvedPermissions,
+        },
       },
     });
   } catch (error) {
+    console.error("getMe error:", error);
     return res.status(500).json({
       message: "Failed to fetch profile",
     });
