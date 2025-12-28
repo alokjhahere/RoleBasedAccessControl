@@ -3,14 +3,21 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home";
 import NavBar from "./components/NavBar";
 import AuthForm from "./pages/AuthForm";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider, useAuth } from "./context/AuthContext";
 import Profile from "./pages/Profile";
+import SideBar from "./components/SideBar";
+useAuth;
 
 const AppLayout = () => {
+  const { token } = useAuth();
+  const isLoggedIn = !!token;
   return (
-    <div>
-      <NavBar />
-      <Outlet />
+    <div className="flex">
+      {isLoggedIn && <SideBar />}
+      <div className="flex-1">
+        <NavBar />
+        <Outlet />
+      </div>
     </div>
   );
 };
